@@ -40,5 +40,3 @@ class BaseObject(BaseStructure):
     def move_to(self, x, y):
         dx, dy = x - self.x, y - self.y
         self.move(dx, dy)
-    def draw_glow(self, surf: pygame.Surface, offset):
-        pass

@@ -9,6 +9,9 @@ class Config:
         FPS = 240
         CLEAR_COLOR = (0, 0, 0, 255)
         VSYNC = True
+        RESIZABLE = True
+        ALWAYS_ON_TOP = False
+        BORDERLESS = False
 
     class Debug:
         pass
@@ -16,3 +19,7 @@ class Config:
     class Texture:
         DEFAULT_SCALE_QUALITY = SCALEQUALITY_NEAREST
         TEXTURE_ATLAS_MAX_DIMENSION = 1024
+
+    class GameInfo:
+        NAME = 'Untitled Game'
+        VERSION = [0, 0, 0, 0]
