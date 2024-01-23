@@ -14,6 +14,9 @@ class Image(video.Image):
 
 
 class BaseRenderer(video.Renderer):
+    """
+    Base Renderer class to be extended by other APIs
+    """
     def draw_texture(self, texture: Union[Texture, Image], pos, scale, angle, flip=(0, 0), target: Texture = None):
         if isinstance(texture, Texture):
             texture = Image(texture)
@@ -29,6 +32,9 @@ class BaseRenderer(video.Renderer):
 
 
 class Renderer(BaseRenderer):
+    """
+    Class to handle window creation and associate a render with it
+    """
     def __init__(self, size=None, headless=False, **kwargs):
         if not size:
             size = Config.Display.W, Config.Display.H
