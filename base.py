@@ -1,7 +1,6 @@
 import pygame.event
 
 from utils import Point
-from video import Renderer
 
 
 class BaseStructure:
