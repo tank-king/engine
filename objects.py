@@ -1,6 +1,7 @@
 import pygame
 
 from base import BaseStructure
+from utils import Point
 
 
 class BaseObject(BaseStructure):
