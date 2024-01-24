@@ -1,5 +1,6 @@
 from typing import Union
 
+import pygame
 from pygame._sdl2 import video
 
 from config import Config
@@ -40,7 +41,15 @@ class BaseRenderer(video.Renderer):
 
 class TextureManager:
     def __init__(self, renderer: 'Renderer'):
-        pass
+        self.renderer = renderer
+        self.atlases = []
+
+    def generate_atlases(self, count, width=1024, height=1024):
+        s = pygame.Surface([width, height])
+        return [GPUTexture.from_surface(self.renderer, s) for _ in range(count)]
+
+    def load_image(self, path):
+        return
 
 
 class Renderer(BaseRenderer):
