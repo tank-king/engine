@@ -44,8 +44,8 @@ class TextureManager:
         self.renderer = renderer
         self.atlases = self.generate_atlases()
         self.packer = rectpack.newPacker(rectpack.PackingMode.Online, rotation=False)
-        for i in self.atlases:
-            self.packer.add_bin(i.width, i.height)
+        for i, j in enumerate(self.atlases):
+            self.packer.add_bin(j.width, j.height, bid=i)
 
     def add_new_atlas(self, width, height):
         self.atlases.append(
