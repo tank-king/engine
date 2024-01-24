@@ -23,12 +23,15 @@ class BaseObject(BaseStructure):
         return Point(self.x, self.y)
 
     @pos.setter
-    def pos(self, value):
-        self.x, self.y = value
-
-    @pos.setter
     def pos(self, position):
         self.x, self.y = position
+
+    @property
+    def absolute(self):
+        if self.parent:
+            return self.parent.absolute + self.pos
+        else:
+            return self.pos
 
     @property
     def rect(self) -> pygame.Rect:
