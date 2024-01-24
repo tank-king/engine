@@ -5,13 +5,13 @@ from pygame._sdl2 import video
 from config import Config
 
 
-class Texture(video.Texture):
-    def render(self, pos, scale, angle, flip=(0, 0), target: 'Texture' = None):
+class GPUTexture(video.Texture):
+    def render(self, pos, scale, angle, flip=(0, 0), target: 'GPUTexture' = None):
         renderer: Renderer = self.renderer
         renderer.draw_texture(self, pos, scale, angle, flip, target)
 
 
-class Image(video.Image):
+class Texture(video.Image):
     pass
 
 
@@ -20,9 +20,10 @@ class BaseRenderer(video.Renderer):
     Base Renderer class to be extended by other APIs
     """
 
-    def draw_texture(self, texture: Union[Texture, Image], pos, scale, angle, flip=(0, 0), target: Texture = None):
-        if isinstance(texture, Texture):
-            texture = Image(texture)
+    def draw_texture(self, texture: Union[GPUTexture, Texture], pos, scale, angle, flip=(0, 0),
+                     target: GPUTexture = None):
+        if isinstance(texture, GPUTexture):
+            texture = Texture(texture)
         curr_target = self.target
         if target:
             self.target = target
@@ -32,6 +33,14 @@ class BaseRenderer(video.Renderer):
         texture.flip_x, texture.flip_y = flip
         texture.draw(dstrect=dst_rect)
         self.target = curr_target
+
+    def render(self):
+        self.present()
+
+
+class TextureManager:
+    def __init__(self, renderer: 'Renderer'):
+        pass
 
 
 class Renderer(BaseRenderer):
@@ -53,10 +62,12 @@ class Renderer(BaseRenderer):
         self.window = Window(Config.GameInfo.NAME, size, hidden=headless, **kwargs)
         super().__init__(self.window, vsync=Config.Display.VSYNC, target_texture=True)
 
+        self.texture_manager = TextureManager(self)
+
     def render(self, flush=False):
         if flush or not self.headless:
             self.present()
 
 
 Window = video.Window
-Sprite = Image
+Sprite = Texture
