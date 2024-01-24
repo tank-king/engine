@@ -19,6 +19,7 @@ class Config:
     class Texture:
         DEFAULT_SCALE_QUALITY = SCALEQUALITY_NEAREST
         TEXTURE_ATLAS_MAX_DIMENSION = 1024
+        MAX_TEXTURE_ATLAS_COUNT = 20
 
     class GameInfo:
         NAME = 'Untitled Game'

@@ -4,6 +4,7 @@ import pygame
 from pygame._sdl2 import video
 
 from config import Config
+import rectpack
 
 
 class GPUTexture(video.Texture):
@@ -42,11 +43,22 @@ class BaseRenderer(video.Renderer):
 class TextureManager:
     def __init__(self, renderer: 'Renderer'):
         self.renderer = renderer
-        self.atlases = []
+        self.atlases = self.generate_atlases()
+        self.packer = rectpack.newPacker(rectpack.PackingMode.Online, rotation=False)
+        for i in self.atlases:
+            self.packer.add_bin(i.width, i.height)
 
-    def generate_atlases(self, count, width=1024, height=1024):
-        s = pygame.Surface([width, height])
-        return [GPUTexture.from_surface(self.renderer, s) for _ in range(count)]
+    def generate_atlases(self, count=None, width=None, height=None):
+        if not count:
+            count = Config.Texture.MAX_TEXTURE_ATLAS_COUNT
+        if not width:
+            width = Config.Texture.TEXTURE_ATLAS_MAX_DIMENSION
+        if not height:
+            height = Config.Texture.TEXTURE_ATLAS_MAX_DIMENSION
+        return [
+            GPUTexture(self.renderer, [width, height], target=True, scale_quality=Config.Texture.DEFAULT_SCALE_QUALITY)
+            for _ in range(count)
+        ]
 
     def load_image(self, path):
         return
