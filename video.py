@@ -1,10 +1,9 @@
 from typing import Union
 
-import pygame
+import rectpack
 from pygame._sdl2 import video
 
 from config import Config
-import rectpack
 
 
 class GPUTexture(video.Texture):
@@ -47,6 +46,11 @@ class TextureManager:
         self.packer = rectpack.newPacker(rectpack.PackingMode.Online, rotation=False)
         for i in self.atlases:
             self.packer.add_bin(i.width, i.height)
+
+    def add_new_atlas(self, width, height):
+        self.atlases.append(
+            GPUTexture(self.renderer, [width, height], target=True, scale_quality=Config.Texture.DEFAULT_SCALE_QUALITY)
+        )
 
     def generate_atlases(self, count=None, width=None, height=None):
         if not count:
