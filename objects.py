@@ -5,6 +5,10 @@ from utils import Point
 
 
 class BaseObject(BaseStructure):
+    """
+    All x, y, z values are considered as relative by default
+    For reference, absolute position can be accessed
+    """
     def __init__(self, x=0.0, y=0.0, z=0.0):
         self.x, self.y = x, y
         self.alive = True
@@ -23,8 +27,8 @@ class BaseObject(BaseStructure):
         return Point(self.x, self.y)
 
     @pos.setter
-    def pos(self, position):
-        self.x, self.y = position
+    def pos(self, value):
+        self.x, self.y = value
 
     @property
     def absolute(self):
