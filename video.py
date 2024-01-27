@@ -1,3 +1,4 @@
+from pathlib import Path
 from typing import Union
 
 import rectpack
@@ -49,8 +50,9 @@ class TextureManager:
 
     def add_new_atlas(self, width, height):
         self.atlases.append(
-            GPUTexture(self.renderer, [width, height], target=True, scale_quality=Config.Texture.DEFAULT_SCALE_QUALITY)
+            t := GPUTexture(self.renderer, [width, height], target=True, scale_quality=Config.Texture.DEFAULT_SCALE_QUALITY)
         )
+        self.packer.add_bin(t.width, t.height, bid=len(self.atlases) - 1)
 
     def generate_atlases(self, count=None, width=None, height=None):
         if not count:
@@ -65,6 +67,8 @@ class TextureManager:
         ]
 
     def load_image(self, path):
+        if isinstance(path, str):
+            path = Path(*path.split('/'))
         return
 
 
